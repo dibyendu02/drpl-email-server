@@ -13,14 +13,20 @@ const domains = {
     uploadPath: "/",
     publicBaseUrl: "https://dotryder.in/uploads",
   },
-  // Add more domains here:
-  // "anotherdomain.com": {
-  //   ftpHost: process.env.ANOTHER_FTP_HOST,
-  //   ftpUser: process.env.ANOTHER_FTP_USER,
-  //   ftpPassword: process.env.ANOTHER_FTP_PASSWORD,
-  //   uploadPath: "/public_html/uploads",
-  //   publicBaseUrl: "https://anotherdomain.com/uploads",
-  // },
+  "dotryder.nl": {
+    ftpHost: process.env.DOTRYDERNL_FTP_HOST,
+    ftpUser: process.env.DOTRYDERNL_FTP_USER,
+    ftpPassword: process.env.DOTRYDERNL_FTP_PASSWORD,
+    uploadPath: "/",
+    publicBaseUrl: "https://dotryder.nl/uploads",
+  },
+  "dotryder.cloud": {
+    ftpHost: process.env.DOTRYDERCLOUD_FTP_HOST,
+    ftpUser: process.env.DOTRYDERCLOUD_FTP_USER,
+    ftpPassword: process.env.DOTRYDERCLOUD_FTP_PASSWORD,
+    uploadPath: "/",
+    publicBaseUrl: "https://dotryder.cloud/uploads",
+  },
 };
 
 const LOCAL_TEST_ORIGINS = [

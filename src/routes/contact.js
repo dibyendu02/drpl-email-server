@@ -18,6 +18,25 @@ const ALLOWED_MIME_TYPES = [
 
 const ALLOWED_EXTENSIONS = /\.(pdf|doc|docx|jpg|jpeg|png)$/i;
 
+const BLOCKED_EMAIL_DOMAINS = [
+  "gmail.com",
+  "googlemail.com",
+  "yahoo.com",
+  "yahoo.co.in",
+  "outlook.com",
+  "hotmail.com",
+  "live.com",
+  "msn.com",
+  "icloud.com",
+  "me.com",
+  "aol.com",
+  "protonmail.com",
+  "zoho.com",
+  "mail.com",
+  "gmx.com",
+  "yandex.com",
+];
+
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
@@ -35,6 +54,11 @@ const upload = multer({
 function sanitize(value) {
   if (typeof value !== "string") return String(value);
   return validator.escape(validator.trim(value));
+}
+
+function isBlockedEmailDomain(email) {
+  const domain = email.split("@")[1]?.toLowerCase();
+  return BLOCKED_EMAIL_DOMAINS.includes(domain);
 }
 
 router.post("/", contactLimiter, upload.single("file"), async (req, res) => {
@@ -59,6 +83,14 @@ router.post("/", contactLimiter, upload.single("file"), async (req, res) => {
     // Validate required fields
     if (!fields.email || !validator.isEmail(validator.unescape(fields.email))) {
       return res.status(400).json({ error: "Please provide a valid email address." });
+    }
+
+    const email = validator.unescape(fields.email);
+
+    if (isBlockedEmailDomain(email)) {
+      return res.status(400).json({
+        error: "Please use your work email address.",
+      });
     }
 
     if (!fields.message || validator.unescape(fields.message).trim().length === 0) {
